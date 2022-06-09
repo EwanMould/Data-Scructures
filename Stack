@@ -1,0 +1,79 @@
+using System;
+namespace c_
+{
+    class Program
+    {
+        struct Stack
+        {
+            //decalring the variables that will be widely used
+            public int data;
+            public int length;
+            public int pointer;
+            public int[] array;
+            //This declares the inital Stack
+            public Stack(int Length)
+            {
+
+                int max = 100;
+                length = Length;
+                pointer = -1;
+                data = 0;
+                int[] Array = new int[max];
+                array = Array;
+            }
+
+            //this will give the push function
+            public void Push(int data)
+            {
+                //checks if the pointer will overflow
+                if ((pointer + 1) >= length)
+                {
+                    Console.WriteLine("Stack Overflow");
+                }
+                //moves the ponter up and inputs the data into the pointers position in the array
+                else{
+                    pointer++;
+                    array[pointer] = data;
+                }
+            }
+            //this will give the pop function
+            public int Pop()
+            {
+                //checks if the pointer has gone below the inital index
+                if(pointer == -1)
+                {
+                    Console.WriteLine("Stack Underflow");
+                    //this just returns null
+                    return 0;
+                }
+                else{
+                    //the data is copied from the array to return
+                    data = array[pointer];
+                    //the initial data from the array is now nullified
+                    array[pointer] = 0;
+                    //pointer moves down
+                    pointer--;
+                    return data;
+                }
+            }
+            public int Peek() 
+            {
+                //just returns the data where the pointer is
+                Console.WriteLine(array[pointer]);
+                return array[pointer];
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            Stack stack1 = new Stack(10);
+            stack1.Push(15);
+            stack1.Push(41);
+            stack1.Push(1);
+            stack1.Push(41);
+            stack1.Push(1);
+
+            stack1.Peek();
+        }
+    }
+}
