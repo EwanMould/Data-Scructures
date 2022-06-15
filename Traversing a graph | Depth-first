@@ -1,0 +1,60 @@
+//depth-first search
+using System;
+class Program
+{
+
+    static string traverse(bool[,] adjacencyMatrix, int rootNode)
+    {
+        char[] alpha = "ABCDEFGHI".ToCharArray();
+
+        string visitedNodes = "";
+
+        Stack<int> stack = new Stack<int>();
+        stack.Push(rootNode);
+        visitedNodes += $" {alpha[rootNode]}";
+
+
+        while(stack.TryPop(out rootNode))
+        {
+
+            if(!visitedNodes.Contains(alpha[rootNode]))
+            {
+                visitedNodes+=$"{alpha[rootNode]}";
+            }
+
+            for(int x = 0; x < adjacencyMatrix.GetLength(0) ; x++)
+            {
+                if(adjacencyMatrix[rootNode,x] && !visitedNodes.Contains(alpha[x])) 
+                {
+                    stack.Push(x);
+                }
+            }
+        }
+        return visitedNodes;
+
+    }
+
+    static void Main()
+    {
+        bool[,] adjacencyMatrix = new bool[7,7]
+        {
+            //the adjacency table-
+
+            //  A   ,B,   C,   D,  E,     F    ,  G
+            {false,true,true,true,false,false,   false},//A
+            {true,false,false,false,true,false, false},//B
+            {true,false,false,true,false,false, false},//C
+            {true,false,true,false,false,true, false},//D
+            {false,true,false,false,false,false, true},//E
+            {false,false,false,true,false,false,false},//F
+            {false,false,false,false,true,false,false} //G
+        };  
+
+
+        //choose what node to start at
+        int rootNode = 3;
+        string visitedNodes = traverse(adjacencyMatrix, rootNode).ToString();
+
+        Console.WriteLine($"{visitedNodes}");
+    }
+}
