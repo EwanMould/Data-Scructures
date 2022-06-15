@@ -1,0 +1,61 @@
+//breadth-first search
+using System;
+class Program
+{
+
+    static string traverse(bool[,] adjacencyMatrix, int rootNode)
+    {
+        //an array to translate the positions in the matrix to a letter
+        char[] alpha = "ABCDEFGHIJK".ToCharArray();
+
+        //create a queue that the non visited nodes will enqueue to.
+        Queue<int> queue = new Queue<int>();
+        //inititate  the visited nodes list (*note: i have decided to just output all the nodes, in the order visited as a string because i am lazy.)
+        string visitedNodes = "";
+        visitedNodes+=$"{alpha[rootNode]}";
+
+        //adds the first node/rootNode as it can't visit itself
+        queue.Enqueue(rootNode);
+
+        //loops while the queued can be dequeued, if it can it dequeues and reassigns the rootNode as the dequeued item from the queue
+        while(queue.TryDequeue(out rootNode))
+        {
+            //loops through the row of the current rootNode
+            for(int x = 0; x < adjacencyMatrix.GetLength(0); ++x)
+            {
+                //only if the the node that is being currently inspected is true and is not already in the visitedNodes string that it will be added to the queue
+                if(adjacencyMatrix[rootNode,x] && (!visitedNodes.Contains(alpha[x])))
+                {
+                    queue.Enqueue(x);
+                    visitedNodes+=$"{alpha[x]}";
+                }
+            }
+        }
+        return visitedNodes;
+
+    }
+
+    static void Main()
+    {
+        bool[,] adjacencyMatrix = new bool[7,7]
+        {
+            //the adjacency table-
+
+            //  A   ,B,   C,   D,  E,     F    ,  G
+            {false,true,true,true,false,false,   false},//A
+            {true,false,false,false,true,false, false},//B
+            {true,false,false,true,false,false, false},//C
+            {true,false,true,false,false,true, false},//D
+            {false,true,false,false,false,false, true},//E
+            {false,false,false,true,false,false,false},//F
+            {false,false,false,false,true,false,false} //G
+        };  
+
+
+        //choose what node to start at
+        int rootNode = 6;
+        string visitedNodes = traverse(adjacencyMatrix, rootNode).ToString();
+
+        Console.WriteLine($"{visitedNodes}");
+    }
+}
